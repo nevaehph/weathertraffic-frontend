@@ -14,6 +14,7 @@ function Screenshot(props: props) {
     <>
       {props.image && (
         <Card>
+          <h2>Screenshot Image</h2>
           <Image src={props.image} alt="location-image" fill={true} />
         </Card>
       )}

@@ -8,7 +8,16 @@ import Screenshot from "./components/Screenshot";
 
 export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      date: new Date(new Date().setHours(0, 0, 0, 0)),
+      time: `${new Date().getHours()}:${
+        new Date().getMinutes().toString().length < 2
+          ? `0${new Date().getMinutes()}`
+          : `${new Date().getMinutes()}`
+      }`,
+    },
+  });
 
   return (
     <div className="m-auto p-6 flex justify-center flex-col max-w-[1280px]">
