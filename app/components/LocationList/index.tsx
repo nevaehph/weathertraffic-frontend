@@ -6,13 +6,13 @@ import { Card } from "flowbite-react";
 
 type props = {
   locations: object[];
-  selectLocation(location: object): void;
+  selectLocation: React.Dispatch<React.SetStateAction<any>>;
 };
 
 function LocationList(props: props) {
   return (
     <>
-      {props.locations && (
+      {props.locations.length > 0 && (
         <div className="flex flex-row">
           <Card>
             <ul>

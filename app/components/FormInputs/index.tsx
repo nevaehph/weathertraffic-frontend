@@ -3,28 +3,35 @@
 */
 "use client";
 
-import {
-  useFormContext,
-  Controller,
-  ControllerRenderProps,
-} from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { ReactElement } from "react";
 import { Datepicker, Button } from "flowbite-react";
+import apiHook from "../../hooks/ApiHook";
+
+type FormInputProps = {
+  setLocations: React.Dispatch<React.SetStateAction<any>>;
+};
 
 type FormData = {
   date: Date;
   time: string;
 };
 
-function FormInputs() {
+function FormInputs(props: FormInputProps) {
   const { handleSubmit, control } = useFormContext<FormData>();
-  const onSubmit = (d: FormData) => {
+
+  const { loading, locationRequest } = apiHook();
+
+  const onSubmit = async (d: FormData) => {
     let timeSplit = d.time.split(":");
     let hours = parseInt(timeSplit[0]);
     let minutes = parseInt(timeSplit[1]);
     let data = new Date(d.date);
     data.setHours(hours, minutes);
     console.log(data);
+    await locationRequest(data).then((response) => {
+      console.log(response);
+    });
   };
   return (
     <form className="w-full mb-4" onSubmit={handleSubmit(onSubmit)}>
@@ -37,6 +44,7 @@ function FormInputs() {
               <Datepicker
                 defaultDate={field.value}
                 onSelectedDateChanged={field.onChange}
+                disabled={loading}
               />
             )}
           />
@@ -51,13 +59,14 @@ function FormInputs() {
                 onChange={field.onChange}
                 onBlur={field.onBlur}
                 value={field.value}
+                disabled={loading}
               />
             )}
           />
         </FormItem>
       </div>
       <div className="mt-4">
-        <Button type="submit" pill>
+        <Button disabled={loading} type="submit" pill>
           Submit
         </Button>
       </div>
