@@ -8,19 +8,21 @@ export default function ApiHook() {
   const request = (endpoint: string, method: string, data?: object) => {
     return new Promise(async (resolve, reject) => {
       setLoading(true);
+      setError(undefined);
       await axios({
         method: method,
         url: `${process.env.NEXT_PUBLIC_BACKEND_API}${endpoint}`,
         data: data,
       })
         .then((response) => {
+          console.log({ response });
           setLoading(false);
           resolve(response.data);
         })
         .catch((err) => {
           setLoading(false);
-          setError(err.response.data);
-          reject(err.response.data);
+          setError(err.message);
+          reject(err);
         });
     });
   };

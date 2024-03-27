@@ -67,7 +67,12 @@ function FormInputs(props: props) {
           />
         </FormItem>
       </div>
-      {error && <div className="mt-2 mb-2 font-bold text-red-500">{error}</div>}
+      {error && (
+        <div className="mt-2 mb-2 font-bold text-red-500">
+          An Error has occurred. Please try again. <br />
+          {error}
+        </div>
+      )}
       <div className="mt-4">
         <Button disabled={loading} type="submit" pill>
           Submit
