@@ -7,7 +7,7 @@ import LocationList from "./components/LocationList";
 import Screenshot from "./components/Screenshot";
 
 export default function Home() {
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(undefined);
   const [locations, setLocations] = useState([]);
   const methods = useForm({
     defaultValues: {
@@ -30,8 +30,9 @@ export default function Home() {
         <LocationList
           locations={locations}
           selectLocation={setSelectedLocation}
+          selectedLocation={selectedLocation}
         />
-        <Screenshot />
+        <Screenshot selectedLocation={selectedLocation} />
       </FormProvider>
     </div>
   );

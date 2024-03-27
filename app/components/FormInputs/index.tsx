@@ -8,7 +8,7 @@ import { ReactElement } from "react";
 import { Datepicker, Button } from "flowbite-react";
 import apiHook from "../../hooks/ApiHook";
 
-type FormInputProps = {
+type props = {
   setLocations: React.Dispatch<React.SetStateAction<any>>;
 };
 
@@ -17,7 +17,7 @@ type FormData = {
   time: string;
 };
 
-function FormInputs(props: FormInputProps) {
+function FormInputs(props: props) {
   const { handleSubmit, control } = useFormContext<FormData>();
 
   const { loading, locationRequest } = apiHook();
@@ -28,9 +28,9 @@ function FormInputs(props: FormInputProps) {
     let minutes = parseInt(timeSplit[1]);
     let data = new Date(d.date);
     data.setHours(hours, minutes);
-    console.log(data);
     await locationRequest(data).then((response) => {
-      console.log(response);
+      console.log({ response });
+      props.setLocations(response);
     });
   };
   return (
