@@ -6,7 +6,7 @@ import { Card } from "flowbite-react";
 import Image from "next/image";
 
 type props = {
-  selectedLocation: {
+  selectedLocation?: {
     image: string;
     image_metadata: {
       width: number;

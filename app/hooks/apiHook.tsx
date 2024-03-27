@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function ApiHook() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(undefined);
 
   const request = (endpoint: string, method: string, data?: object) => {
     return new Promise(async (resolve, reject) => {
@@ -18,6 +19,7 @@ export default function ApiHook() {
         })
         .catch((err) => {
           setLoading(false);
+          setError(err.response.data);
           reject(err.response.data);
         });
     });
@@ -32,5 +34,6 @@ export default function ApiHook() {
   return {
     locationRequest,
     loading,
+    error,
   };
 }

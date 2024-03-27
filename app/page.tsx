@@ -9,6 +9,10 @@ import Screenshot from "./components/Screenshot";
 export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState(undefined);
   const [locations, setLocations] = useState([]);
+  const clearLocations = () => {
+    setLocations([]);
+    setSelectedLocation(undefined);
+  };
   const methods = useForm({
     defaultValues: {
       date: new Date(new Date().setHours(0, 0, 0, 0)),
@@ -26,7 +30,10 @@ export default function Home() {
         <h1 className="mb-4 text-2xl font-extrabold leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
           Weather & Traffic
         </h1>
-        <FormInputs setLocations={setLocations} />
+        <FormInputs
+          setLocations={setLocations}
+          clearLocations={clearLocations}
+        />
         <LocationList
           locations={locations}
           selectLocation={setSelectedLocation}

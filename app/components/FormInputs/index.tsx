@@ -10,6 +10,7 @@ import apiHook from "../../hooks/ApiHook";
 
 type props = {
   setLocations: React.Dispatch<React.SetStateAction<any>>;
+  clearLocations(): void;
 };
 
 type FormData = {
@@ -20,22 +21,23 @@ type FormData = {
 function FormInputs(props: props) {
   const { handleSubmit, control } = useFormContext<FormData>();
 
-  const { loading, locationRequest } = apiHook();
+  const { loading, locationRequest, error } = apiHook();
 
   const onSubmit = async (d: FormData) => {
+    props.clearLocations();
     let timeSplit = d.time.split(":");
     let hours = parseInt(timeSplit[0]);
     let minutes = parseInt(timeSplit[1]);
     let data = new Date(d.date);
     data.setHours(hours, minutes);
     await locationRequest(data).then((response) => {
-      console.log({ response });
       props.setLocations(response);
     });
   };
   return (
     <form className="w-full mb-4" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex justify-stretch">
+      <p className="mb-2">Get started by selecting a Date and Time.</p>
+      <div className="grid gap-2 md:grid-cols-1 lg:w-2/3 lg:grid-cols-2">
         <FormItem title="Date">
           <Controller
             name="date"
@@ -65,6 +67,7 @@ function FormInputs(props: props) {
           />
         </FormItem>
       </div>
+      {error && <div className="mt-2 mb-2 font-bold text-red-500">{error}</div>}
       <div className="mt-4">
         <Button disabled={loading} type="submit" pill>
           Submit
@@ -77,7 +80,7 @@ function FormInputs(props: props) {
 function FormItem(formItem: { title: string; children: ReactElement }) {
   return (
     <div>
-      <h5>{formItem.title}</h5>
+      <p className="mb-2 font-bold">{formItem.title}</p>
       <div>{formItem.children}</div>
     </div>
   );
@@ -88,7 +91,7 @@ function Timepicker(field: any) {
     <div className="relative">
       <input
         type="time"
-        className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        className="bg-gray-50 border leading-none disabled:cursor-not-allowed disabled:opacity-50 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500 focus:border-cyan-500 focus:ring-cyan-500"
         {...field}
       />
     </div>

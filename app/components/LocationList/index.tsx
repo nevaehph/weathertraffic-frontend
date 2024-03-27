@@ -23,14 +23,9 @@ function LocationList(props: props) {
   return (
     <>
       {props.locations.length > 0 && (
-        <div className="grid gap-1 grid-cols-2">
-          <Card className="">
+        <div className="grid gap-2 md:grid-cols-1 lg:grid-cols-3">
+          <Card className="lg:col-span-2">
             <p>Select a location to view the weather and image of it.</p>
-            {props.selectedLocation && (
-              <p className="font-bold w-full text-wrap">
-                Selected Location: {props.selectedLocation?.name}
-              </p>
-            )}
             <div className="h-96 overflow-y-auto p-4">
               <ul>
                 {props.locations.map((item: object, index: number) => {
@@ -66,10 +61,18 @@ function LocationList(props: props) {
               </ul>
             </div>
           </Card>
-          <Card>
-            <h3>Weather</h3>
-            <h5>{props.selectedLocation?.weather}</h5>
-          </Card>
+          {props.selectedLocation && (
+            <Card className="lg:col-span-1">
+              <div className="flex flex-col justify-start">
+                <p className="font-bold w-full text-wrap">Selected Location:</p>
+                <p className="w-full text-wrap mb-4">
+                  {props.selectedLocation?.name}
+                </p>
+                <p className="font-bold w-full text-wrap">Weather</p>
+                <p>{props.selectedLocation?.weather}</p>
+              </div>
+            </Card>
+          )}
         </div>
       )}
     </>
