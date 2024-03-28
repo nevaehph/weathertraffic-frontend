@@ -5,6 +5,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import FormInputs from "./components/FormInputs";
 import LocationList from "./components/LocationList";
 import Screenshot from "./components/Screenshot";
+import Recommendations from "./components/Recommendations";
 
 export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState(undefined);
@@ -13,14 +14,19 @@ export default function Home() {
     setLocations([]);
     setSelectedLocation(undefined);
   };
+  let currentTimeString = `${
+    new Date().getHours().toString().length < 2
+      ? `0${new Date().getHours()}`
+      : new Date().getHours()
+  }:${
+    new Date().getMinutes().toString().length < 2
+      ? `0${new Date().getMinutes()}`
+      : `${new Date().getMinutes()}`
+  }`;
   const methods = useForm({
     defaultValues: {
       date: new Date(new Date().setHours(0, 0, 0, 0)),
-      time: `${new Date().getHours()}:${
-        new Date().getMinutes().toString().length < 2
-          ? `0${new Date().getMinutes()}`
-          : `${new Date().getMinutes()}`
-      }`,
+      time: currentTimeString,
     },
   });
 
@@ -34,6 +40,7 @@ export default function Home() {
           setLocations={setLocations}
           clearLocations={clearLocations}
         />
+        <Recommendations />
         <LocationList
           locations={locations}
           selectLocation={setSelectedLocation}

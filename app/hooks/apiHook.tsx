@@ -15,7 +15,6 @@ export default function ApiHook() {
         data: data,
       })
         .then((response) => {
-          console.log({ response });
           setLoading(false);
           resolve(response.data);
         })
@@ -27,14 +26,19 @@ export default function ApiHook() {
     });
   };
 
-  const locationRequest = (date: Date) => {
+  const locationRequest = (date: number) => {
     return request("/request", "POST", {
-      datetime: date.toISOString(),
+      datetime: date,
     });
+  };
+
+  const recommendationRequest = () => {
+    return request("/request/recommendations", "GET");
   };
 
   return {
     locationRequest,
+    recommendationRequest,
     loading,
     error,
   };

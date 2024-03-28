@@ -7,6 +7,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import { ReactElement } from "react";
 import { Datepicker, Button } from "flowbite-react";
 import apiHook from "../../hooks/ApiHook";
+import recommendationHook from "../../hooks/RecommendationHook";
 
 type props = {
   setLocations: React.Dispatch<React.SetStateAction<any>>;
@@ -22,6 +23,7 @@ function FormInputs(props: props) {
   const { handleSubmit, control } = useFormContext<FormData>();
 
   const { loading, locationRequest, error } = apiHook();
+  const { addRecentDateTime } = recommendationHook();
 
   const onSubmit = async (d: FormData) => {
     props.clearLocations();
@@ -31,10 +33,11 @@ function FormInputs(props: props) {
     let data = new Date(d.date);
     data.setHours(hours, minutes);
     //add timezone offset to request
-    let offset = data.getTimezoneOffset();
-    data = new Date(data.getTime() - offset * 60000);
-    await locationRequest(data).then((response) => {
+    await locationRequest(data.getTime()).then((response) => {
       props.setLocations(response);
+
+      //if location is retrieved successfully, store it as recentDateTime in localStorage
+      addRecentDateTime(data);
     });
   };
   return (

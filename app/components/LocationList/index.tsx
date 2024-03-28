@@ -31,9 +31,9 @@ function LocationList(props: props) {
                 {props.locations.map((item: object, index: number) => {
                   const locationItem = item as locationItem;
                   return (
-                    <a
+                    <div
+                      className="cursor-pointer"
                       key={index}
-                      href="javascript:void(0)"
                       onClick={() => {
                         if (
                           locationItem.camera_id ===
@@ -49,13 +49,13 @@ function LocationList(props: props) {
                         className={
                           props.selectedLocation?.camera_id ===
                           locationItem.camera_id
-                            ? "bg-cyan-700 text-white p-1"
-                            : "p-1"
+                            ? "bg-cyan-700 text-white p-1 underline"
+                            : "underline p-1 transition hover:bg-cyan-700 hover:text-white"
                         }
                       >
                         {locationItem.name}
                       </li>
-                    </a>
+                    </div>
                   );
                 })}
               </ul>
