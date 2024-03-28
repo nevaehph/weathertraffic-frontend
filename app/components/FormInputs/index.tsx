@@ -5,7 +5,7 @@
 
 import { useFormContext, Controller } from "react-hook-form";
 import { ReactElement } from "react";
-import { Datepicker, Button } from "flowbite-react";
+import { Datepicker, Button, Spinner } from "flowbite-react";
 import apiHook from "../../hooks/ApiHook";
 import recommendationHook from "../../hooks/RecommendationHook";
 
@@ -41,52 +41,57 @@ function FormInputs(props: props) {
     });
   };
   return (
-    <form className="w-full mb-4" onSubmit={handleSubmit(onSubmit)}>
-      <p className="mb-2">Get started by selecting a Date and Time.</p>
-      <div className="grid gap-2 md:grid-cols-1 lg:w-2/3 lg:grid-cols-2">
-        <FormItem title="Date">
-          <Controller
-            name="date"
-            control={control}
-            render={({ field }) => (
-              <Datepicker
-                value={new Intl.DateTimeFormat("en-SG", {
-                  dateStyle: "medium",
-                }).format(field.value)}
-                onSelectedDateChanged={field.onChange}
-                disabled={loading}
-              />
-            )}
-          />
-        </FormItem>
-        <FormItem title="Time">
-          <Controller
-            name="time"
-            control={control}
-            render={({ field }) => (
-              <Timepicker
-                name={field.name}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-                value={field.value}
-                disabled={loading}
-              />
-            )}
-          />
-        </FormItem>
-      </div>
-      {error && (
-        <div className="mt-2 mb-2 font-bold text-red-500">
-          An Error has occurred. Please try again. <br />
-          {error}
+    <>
+      <form className="w-full mb-4" onSubmit={handleSubmit(onSubmit)}>
+        <p className="mb-2">Get started by selecting a Date and Time.</p>
+        <div className="grid gap-2 md:grid-cols-1 lg:w-2/3 lg:grid-cols-2">
+          <FormItem title="Date">
+            <Controller
+              name="date"
+              control={control}
+              render={({ field }) => (
+                <Datepicker
+                  value={new Intl.DateTimeFormat("en-SG", {
+                    dateStyle: "medium",
+                  }).format(field.value)}
+                  onSelectedDateChanged={field.onChange}
+                  disabled={loading}
+                />
+              )}
+            />
+          </FormItem>
+          <FormItem title="Time">
+            <Controller
+              name="time"
+              control={control}
+              render={({ field }) => (
+                <Timepicker
+                  name={field.name}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  value={field.value}
+                  disabled={loading}
+                />
+              )}
+            />
+          </FormItem>
         </div>
-      )}
-      <div className="mt-4">
-        <Button disabled={loading} type="submit" pill>
-          Submit
-        </Button>
-      </div>
-    </form>
+        {error && (
+          <div className="mt-2 mb-2 font-bold text-red-500">
+            An Error has occurred. Please try again. <br />
+            {error}
+          </div>
+        )}
+        <div className="mt-4">
+          <Button disabled={loading} type="submit" pill>
+            Submit{" "}
+            {loading && (
+              <Spinner className="ml-2" size="sm" aria-label="Loading.." />
+            )}
+          </Button>
+        </div>
+      </form>
+    </>
   );
 }
 
