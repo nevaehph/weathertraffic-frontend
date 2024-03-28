@@ -6,10 +6,6 @@ export default function RecommendationHook() {
   const recentDateKey = "recentDateTimes";
 
   useEffect(() => {
-    console.log({ recentDateTimes });
-  }, [recentDateTimes]);
-
-  useEffect(() => {
     try {
       //check if there are any datetimes in localstorage
       let localDateTimes = localStorage.getItem(recentDateKey);
@@ -18,7 +14,6 @@ export default function RecommendationHook() {
         for (var i = 0; i < parsedLocal.length; i++) {
           parsedLocal[i] = new Date(parsedLocal[i]);
         }
-        console.log("setting date time");
         setRecentDateTimes(parsedLocal);
       }
     } catch (err) {

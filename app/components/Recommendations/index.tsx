@@ -58,7 +58,9 @@ function DateTimeList(props: DateTimeListProps) {
   const { setValue } = useFormContext<FormData>();
 
   const applyDateTime = (date: Date) => {
-    console.log(date);
+    let newDate = new Date(date);
+    setValue("time", newDate.toLocaleTimeString());
+    setValue("date", new Date(newDate.setHours(0, 0, 0, 0)));
   };
 
   const dateFormat = (date: Date) => {

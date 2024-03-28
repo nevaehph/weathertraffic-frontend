@@ -50,7 +50,9 @@ function FormInputs(props: props) {
             control={control}
             render={({ field }) => (
               <Datepicker
-                defaultDate={field.value}
+                value={new Intl.DateTimeFormat("en-SG", {
+                  dateStyle: "medium",
+                }).format(field.value)}
                 onSelectedDateChanged={field.onChange}
                 disabled={loading}
               />
