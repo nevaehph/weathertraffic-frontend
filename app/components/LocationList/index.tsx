@@ -32,6 +32,7 @@ function LocationList(props: props) {
                   const locationItem = item as locationItem;
                   return (
                     <a
+                      key={index}
                       href="javascript:void(0)"
                       onClick={() => {
                         if (
@@ -45,7 +46,6 @@ function LocationList(props: props) {
                       }}
                     >
                       <li
-                        key={index}
                         className={
                           props.selectedLocation?.camera_id ===
                           locationItem.camera_id
