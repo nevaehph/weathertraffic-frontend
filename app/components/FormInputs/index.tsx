@@ -30,6 +30,9 @@ function FormInputs(props: props) {
     let minutes = parseInt(timeSplit[1]);
     let data = new Date(d.date);
     data.setHours(hours, minutes);
+    //add timezone offset to request
+    let offset = data.getTimezoneOffset();
+    data = new Date(data.getTime() - offset * 60000);
     await locationRequest(data).then((response) => {
       props.setLocations(response);
     });
